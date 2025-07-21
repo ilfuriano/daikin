@@ -9,7 +9,11 @@ AUTO_LOAD = ["climate_ir"]
 daikin_brc52a61_ns = cg.esphome_ns.namespace("daikin_brc52a61")
 DaikinClimate = daikin_brc52a61_ns.class_("DaikinClimate", climate_ir.ClimateIR)
 
-CONFIG_SCHEMA = climate_ir.climate_ir_with_receiver_schema(DaikinClimate)
+CONFIG_SCHEMA = climate_ir.climate_ir_with_receiver_schema(DaikinClimate).extend(
+    {
+        cv.Optional(CONF_USE_FAHRENHEIT, default=False): cv.boolean,
+    }
+)
     
 async def to_code(config):
     var = await climate_ir.new_climate_ir(config)
